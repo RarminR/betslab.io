@@ -34,5 +34,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'email_verified_at' => now(),
         ]);
+
+        // Seed mock tips data
+        $this->call(TipSeeder::class);
     }
 }
