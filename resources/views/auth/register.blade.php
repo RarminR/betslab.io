@@ -194,9 +194,9 @@
         </div>
 
         <!-- Right Panel - Branding -->
-        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-bl from-slate-800 to-slate-900">
+        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-bl from-slate-800 to-slate-900 items-center justify-center">
             <div class="absolute inset-0 bg-gradient-to-bl from-amber-500/10 to-orange-500/10"></div>
-            <div class="relative z-10 flex flex-col justify-center items-center p-12 text-center">
+            <div class="relative z-10 flex flex-col items-center p-12 text-center">
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="mb-8">
                     <div class="text-5xl font-black">
