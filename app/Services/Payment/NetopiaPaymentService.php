@@ -14,14 +14,16 @@ class NetopiaPaymentService implements PaymentGatewayInterface
     private string $privateKey;
     private string $signature;
     private bool $sandboxMode;
+    private bool $simulationMode;
 
     public function __construct()
     {
-        $this->merchantId = config('services.netopia.merchant_id', '');
-        $this->publicKey = config('services.netopia.public_key', '');
-        $this->privateKey = config('services.netopia.private_key', '');
-        $this->signature = config('services.netopia.signature', '');
+        $this->merchantId = config('services.netopia.merchant_id') ?? '';
+        $this->publicKey = config('services.netopia.public_key') ?? '';
+        $this->privateKey = config('services.netopia.private_key') ?? '';
+        $this->signature = config('services.netopia.signature') ?? '';
         $this->sandboxMode = config('services.netopia.sandbox', true);
+        $this->simulationMode = empty($this->merchantId) || config('services.netopia.simulation', true);
     }
 
     /**
@@ -38,6 +40,11 @@ class NetopiaPaymentService implements PaymentGatewayInterface
     public function initiate(Subscription $subscription): array
     {
         $orderId = 'BL-' . $subscription->id . '-' . Str::random(8);
+
+        // Simulation mode - simulate successful payment immediately
+        if ($this->simulationMode) {
+            return $this->simulatePayment($subscription, $orderId);
+        }
         
         $paymentData = [
             'order_id' => $orderId,
@@ -64,11 +71,56 @@ class NetopiaPaymentService implements PaymentGatewayInterface
     }
 
     /**
+     * Simulate a successful payment for testing purposes.
+     */
+    private function simulatePayment(Subscription $subscription, string $orderId): array
+    {
+        Log::info('Netopia SIMULATION: Payment initiated', [
+            'subscription_id' => $subscription->id,
+            'order_id' => $orderId,
+            'amount' => $subscription->price,
+        ]);
+
+        $transactionId = 'SIM-' . Str::random(16);
+
+        // In simulation mode, redirect to a simulated success page
+        return [
+            'success' => true,
+            'simulation' => true,
+            'transaction_id' => $transactionId,
+            'redirect_url' => route('payment.return', [
+                'status' => 'success',
+                'transaction_id' => $transactionId,
+                'order_id' => $orderId,
+                'simulation' => 1,
+            ]),
+            'order_id' => $orderId,
+            'raw_response' => [
+                'simulation' => true,
+                'message' => 'Payment simulated successfully',
+            ],
+        ];
+    }
+
+    /**
      * Process webhook/callback from payment gateway.
      */
     public function processWebhook(array $data): array
     {
         Log::info('Netopia webhook received', $data);
+
+        // Handle simulation webhook
+        if (isset($data['simulation']) && $data['simulation']) {
+            return [
+                'success' => true,
+                'simulation' => true,
+                'transaction_id' => $data['transaction_id'] ?? null,
+                'order_id' => $data['order_id'] ?? null,
+                'status' => 'completed',
+                'amount' => $data['amount'] ?? 0,
+                'raw_response' => $data,
+            ];
+        }
 
         // Decrypt and parse the response
         $decryptedData = $this->decryptResponse($data);
@@ -96,6 +148,18 @@ class NetopiaPaymentService implements PaymentGatewayInterface
      */
     public function verifyPayment(string $transactionId): array
     {
+        // Handle simulation verification
+        if (str_starts_with($transactionId, 'SIM-') || $this->simulationMode) {
+            return [
+                'success' => true,
+                'simulation' => true,
+                'transaction_id' => $transactionId,
+                'status' => 'completed',
+                'amount' => 0,
+                'raw_response' => ['simulation' => true],
+            ];
+        }
+
         // Netopia doesn't have a direct verification API
         // Status is communicated via webhooks
         return [
@@ -118,6 +182,11 @@ class NetopiaPaymentService implements PaymentGatewayInterface
      */
     public function validateWebhook(array $data): bool
     {
+        // Allow simulation webhooks
+        if (isset($data['simulation']) && $data['simulation']) {
+            return true;
+        }
+
         // Validate that required fields exist
         if (!isset($data['env_key']) || !isset($data['data'])) {
             return false;
@@ -125,6 +194,14 @@ class NetopiaPaymentService implements PaymentGatewayInterface
 
         // In production, verify the signature
         return true;
+    }
+
+    /**
+     * Check if we're in simulation mode.
+     */
+    public function isSimulationMode(): bool
+    {
+        return $this->simulationMode;
     }
 
     /**
@@ -225,4 +302,3 @@ XML;
         };
     }
 }
-

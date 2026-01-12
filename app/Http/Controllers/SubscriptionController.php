@@ -105,6 +105,20 @@ class SubscriptionController extends Controller
         // Clear session
         session()->forget('pending_subscription_id');
 
+        // Handle simulation mode - auto-activate subscription
+        if ($request->has('simulation') && $request->simulation == 1) {
+            // Update any pending payment to completed
+            $payment = $subscription->payments()->where('status', 'pending')->first();
+            if ($payment) {
+                $payment->markAsCompleted(['simulation' => true]);
+            }
+            
+            $this->subscriptionService->activateSubscription($subscription);
+            
+            return redirect()->route('dashboard')
+                ->with('success', '🎉 Plata simulată cu succes! Bine ai venit în BetsLab VIP!');
+        }
+
         // Check subscription status
         if ($subscription->status === 'active') {
             return redirect()->route('dashboard')
