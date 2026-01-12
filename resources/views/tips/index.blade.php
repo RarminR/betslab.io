@@ -58,33 +58,36 @@
                                 <div class="flex items-center justify-between mb-4">
                                     <span class="text-sm font-medium text-slate-400">{{ $tip->sport }}</span>
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                        @if($tip->status === 'won') bg-green-500/20 text-green-400
-                                        @elseif($tip->status === 'lost') bg-red-500/20 text-red-400
-                                        @elseif($tip->status === 'published') bg-blue-500/20 text-blue-400
+                                        @if($tip->result === 'won') bg-green-500/20 text-green-400
+                                        @elseif($tip->result === 'lost') bg-red-500/20 text-red-400
+                                        @elseif($tip->result === 'pending') bg-blue-500/20 text-blue-400
                                         @else bg-slate-500/20 text-slate-400 @endif">
-                                        {{ ucfirst($tip->status) }}
+                                        {{ ucfirst($tip->result) }}
                                     </span>
                                 </div>
 
-                                <!-- Event -->
+                                <!-- Title -->
                                 <h3 class="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition">
-                                    {{ $tip->event_name }}
+                                    {{ $tip->title }}
                                 </h3>
                                 <p class="text-slate-400 text-sm mb-4">
                                     <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
-                                    {{ $tip->event_date->format('M d, Y - H:i') }}
+                                    {{ $tip->published_at?->format('M d, Y') ?? 'Coming soon' }}
                                 </p>
 
                                 <!-- Selections -->
                                 <div class="space-y-2 mb-4">
                                     @foreach($tip->selections->take(3) as $selection)
                                         <div class="flex items-center justify-between py-2 border-t border-slate-700">
-                                            <span class="text-slate-300 text-sm">{{ $selection->selection_name }}</span>
+                                            <div class="flex-1 min-w-0 mr-2">
+                                                <span class="text-slate-300 text-sm block truncate">{{ $selection->event_name }}</span>
+                                                <span class="text-slate-500 text-xs">{{ $selection->prediction }}</span>
+                                            </div>
                                             <div class="flex items-center space-x-2">
-                                                <span class="text-amber-400 font-semibold">@ {{ number_format($selection->odd, 2) }}</span>
-                                                @if($selection->result)
+                                                <span class="text-amber-400 font-semibold">@ {{ number_format($selection->odds, 2) }}</span>
+                                                @if($selection->result && $selection->result !== 'pending')
                                                     <span class="w-2 h-2 rounded-full
                                                         @if($selection->result === 'won') bg-green-500
                                                         @elseif($selection->result === 'lost') bg-red-500
@@ -100,14 +103,9 @@
                                 </div>
 
                                 <!-- Total Odds -->
-                                @php
-                                    $totalOdds = $tip->selections->reduce(function($carry, $selection) {
-                                        return $carry * $selection->odd;
-                                    }, 1);
-                                @endphp
                                 <div class="flex items-center justify-between pt-4 border-t border-slate-700">
                                     <span class="text-slate-400 text-sm">Total Odds</span>
-                                    <span class="text-xl font-bold text-amber-400">@ {{ number_format($totalOdds, 2) }}</span>
+                                    <span class="text-xl font-bold text-amber-400">@ {{ number_format($tip->total_odds, 2) }}</span>
                                 </div>
                             </div>
 
