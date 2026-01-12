@@ -24,7 +24,7 @@ Route::post('/webhooks/revolut', [PaymentWebhookController::class, 'revolut'])
     ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 
 // Authenticated routes
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -53,7 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Admin routes
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'verified', 'admin'])
+    ->middleware(['auth', 'admin'])
     ->group(function () {
         require __DIR__.'/admin.php';
     });
