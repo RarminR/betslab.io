@@ -364,20 +364,30 @@
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-slate-400 text-sm">{{ $tip->sport }}</span>
                             <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                @if($tip->status === 'won') bg-green-500/20 text-green-400
-                                @elseif($tip->status === 'lost') bg-red-500/20 text-red-400
+                                @if($tip->result === 'won') bg-green-500/20 text-green-400
+                                @elseif($tip->result === 'lost') bg-red-500/20 text-red-400
                                 @else bg-blue-500/20 text-blue-400 @endif">
-                                {{ ucfirst($tip->status) }}
+                                {{ ucfirst($tip->result) }}
                             </span>
                         </div>
-                        <h4 class="font-semibold text-lg mb-2">{{ $tip->event_name }}</h4>
-                        <p class="text-slate-400 text-sm mb-4">{{ $tip->event_date->format('M d, Y - H:i') }}</p>
+                        <h4 class="font-semibold text-lg mb-2">{{ $tip->title }}</h4>
+                        <div class="flex items-center gap-2 text-slate-400 text-sm mb-4">
+                            <span class="text-amber-400 font-bold">@ {{ number_format($tip->total_odds, 2) }}</span>
+                            <span>•</span>
+                            <span>{{ $tip->published_at?->format('M d, Y') ?? 'Draft' }}</span>
+                        </div>
                         @foreach($tip->selections->take(2) as $selection)
-                            <div class="flex justify-between items-center text-sm py-1 border-t border-slate-700">
-                                <span class="text-slate-300">{{ $selection->selection_name }}</span>
-                                <span class="text-amber-400 font-semibold">@ {{ number_format($selection->odd, 2) }}</span>
+                            <div class="flex justify-between items-center text-sm py-2 border-t border-slate-700">
+                                <div>
+                                    <span class="text-slate-300">{{ $selection->event_name }}</span>
+                                    <span class="text-slate-500 text-xs block">{{ $selection->prediction }}</span>
+                                </div>
+                                <span class="text-amber-400 font-semibold">@ {{ number_format($selection->odds, 2) }}</span>
                             </div>
                         @endforeach
+                        @if($tip->selections->count() > 2)
+                            <p class="text-slate-500 text-xs mt-2">+{{ $tip->selections->count() - 2 }} more selections</p>
+                        @endif
                     </div>
                 @empty
                     <div class="col-span-3 text-center py-12">
