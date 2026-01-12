@@ -31,6 +31,7 @@ class DashboardController extends Controller
         ];
 
         return view('dashboard', [
+            'user' => $user,
             'activeSubscription' => $activeSubscription,
             'recentTips' => $recentTips,
             'stats' => $stats,
