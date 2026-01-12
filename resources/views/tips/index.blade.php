@@ -52,8 +52,8 @@
             @if($tips->count())
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($tips as $tip)
-                        <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 hover:border-amber-500/30 transition overflow-hidden group">
-                            <div class="p-6">
+                        <div class="bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 hover:border-amber-500/30 transition overflow-hidden group flex flex-col h-full">
+                            <div class="p-6 flex-1 flex flex-col">
                                 <!-- Header -->
                                 <div class="flex items-center justify-between mb-4">
                                     <span class="text-sm font-medium text-slate-400">{{ $tip->sport }}</span>
@@ -78,7 +78,7 @@
                                 </p>
 
                                 <!-- Selections -->
-                                <div class="space-y-2 mb-4">
+                                <div class="space-y-2 mb-4 flex-1">
                                     @foreach($tip->selections->take(3) as $selection)
                                         <div class="flex items-center justify-between py-2 border-t border-slate-700">
                                             <div class="flex-1 min-w-0 mr-2">
@@ -103,7 +103,7 @@
                                 </div>
 
                                 <!-- Total Odds -->
-                                <div class="flex items-center justify-between pt-4 border-t border-slate-700">
+                                <div class="flex items-center justify-between pt-4 border-t border-slate-700 mt-auto">
                                     <span class="text-slate-400 text-sm">Total Odds</span>
                                     <span class="text-xl font-bold text-amber-400">@ {{ number_format($tip->total_odds, 2) }}</span>
                                 </div>
