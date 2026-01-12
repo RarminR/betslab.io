@@ -1,0 +1,352 @@
+================================================================================
+                        BETSLAB.IO DESIGN SYSTEM
+================================================================================
+
+================================================================================
+COLOR PALETTE
+================================================================================
+
+PRIMARY COLORS (Brand)
+----------------------
+| Color      | Tailwind Class | Hex Code  | Usage                          |
+|------------|----------------|-----------|--------------------------------|
+| Amber 500  | amber-500      | #f59e0b   | Primary accent, CTAs, highlights|
+| Amber 400  | amber-400      | #fbbf24   | Hover states, secondary accent |
+| Orange 500 | orange-500     | #ea580c   | Gradient end, energy           |
+| Orange 400 | orange-400     | #fb923c   | Gradient hover end             |
+
+BACKGROUND COLORS (Dark Theme)
+------------------------------
+| Color       | Tailwind Class  | Hex Code            | Usage                |
+|-------------|-----------------|---------------------|----------------------|
+| Slate 900   | slate-900       | #0f172a             | Main background      |
+| Slate 800   | slate-800       | #1e293b             | Cards, surfaces      |
+| Slate 700   | slate-700       | #334155             | Borders, dividers    |
+| Slate 800/50| slate-800/50    | rgba(30,41,59,0.5)  | Glass cards          |
+
+TEXT COLORS
+-----------
+| Color      | Tailwind Class | Hex Code  | Usage                          |
+|------------|----------------|-----------|--------------------------------|
+| White      | white          | #ffffff   | Primary text, headings         |
+| Slate 300  | slate-300      | #cbd5e1   | Body text                      |
+| Slate 400  | slate-400      | #94a3b8   | Secondary text, labels         |
+| Slate 500  | slate-500      | #64748b   | Muted text, hints              |
+
+STATUS COLORS
+-------------
+| Color      | Tailwind Class | Hex Code  | Usage                          |
+|------------|----------------|-----------|--------------------------------|
+| Green 400  | green-400      | #4ade80   | Success, Won, Active           |
+| Green 500  | green-500      | #22c55e   | Success badges                 |
+| Red 400    | red-400        | #f87171   | Error, Lost, Danger            |
+| Red 500    | red-500        | #ef4444   | Delete actions                 |
+| Blue 400   | blue-400       | #60a5fa   | Info, Pending, Telegram        |
+| Yellow 400 | yellow-400     | #facc15   | Warning, Pending               |
+| Purple 400 | purple-400     | #c084fc   | VIP badges                     |
+
+
+================================================================================
+TYPOGRAPHY
+================================================================================
+
+FONT FAMILY
+-----------
+Primary: 'Space Grotesk', sans-serif
+Fallback: system-ui, sans-serif
+
+Google Fonts URL:
+https://fonts.bunny.net/css?family=space-grotesk:400,500,600,700&display=swap
+
+FONT WEIGHTS
+------------
+| Weight | Tailwind Class | Usage                                    |
+|--------|----------------|------------------------------------------|
+| 400    | font-normal    | Body text                                |
+| 500    | font-medium    | Labels, navigation                       |
+| 600    | font-semibold  | Subheadings, card titles                 |
+| 700    | font-bold      | Headings, buttons                        |
+| 900    | font-black     | Hero text, large stats                   |
+
+TEXT SIZES
+----------
+| Class     | Size  | Usage                                      |
+|-----------|-------|--------------------------------------------|
+| text-xs   | 12px  | Badges, hints, timestamps                  |
+| text-sm   | 14px  | Secondary text, form labels                |
+| text-base | 16px  | Body text                                  |
+| text-lg   | 18px  | Card titles                                |
+| text-xl   | 20px  | Section titles                             |
+| text-2xl  | 24px  | Page headings                              |
+| text-3xl  | 30px  | Hero subtext                               |
+| text-4xl  | 36px  | Stats, large numbers                       |
+| text-5xl  | 48px  | Hero text                                  |
+| text-6xl  | 60px  | Large hero displays                        |
+
+
+================================================================================
+CUSTOM CSS CLASSES
+================================================================================
+
+GRADIENT TEXT
+-------------
+.gradient-text {
+    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+CARD GLOW EFFECT (Hover)
+------------------------
+.card-glow:hover {
+    box-shadow: 0 0 40px rgba(245, 158, 11, 0.15);
+}
+
+GLOW BORDER (Focus State)
+-------------------------
+.glow-border:focus {
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+}
+
+
+================================================================================
+COMPONENT EXAMPLES
+================================================================================
+
+PRIMARY BUTTON (CTA)
+--------------------
+<button class="bg-gradient-to-r from-amber-500 to-orange-500 
+               hover:from-amber-400 hover:to-orange-400 
+               text-slate-900 px-8 py-4 rounded-full 
+               font-bold text-lg transition transform hover:scale-105">
+    Get Started
+</button>
+
+SECONDARY BUTTON
+----------------
+<button class="bg-slate-800 hover:bg-slate-700 
+               border border-slate-700 text-white 
+               px-6 py-3 rounded-xl font-semibold transition">
+    Learn More
+</button>
+
+DANGER BUTTON
+-------------
+<button class="bg-red-500/20 hover:bg-red-500 
+               border border-red-500 text-red-400 hover:text-white 
+               px-6 py-3 rounded-xl font-semibold transition">
+    Delete
+</button>
+
+CARD (Glass Effect)
+-------------------
+<div class="bg-slate-800/50 backdrop-blur rounded-2xl 
+            border border-slate-700 p-6 
+            hover:border-amber-500/50 transition card-glow">
+    <!-- Content -->
+</div>
+
+INPUT FIELD
+-----------
+<input class="w-full px-4 py-3 bg-slate-800 
+              border border-slate-700 rounded-xl 
+              text-white placeholder-slate-500 
+              focus:outline-none focus:border-amber-500 
+              glow-border transition"
+       placeholder="Enter text...">
+
+BADGE - SUCCESS (Won)
+---------------------
+<span class="px-3 py-1 bg-green-500/20 text-green-400 
+             rounded-full text-xs font-semibold">
+    Won
+</span>
+
+BADGE - ERROR (Lost)
+--------------------
+<span class="px-3 py-1 bg-red-500/20 text-red-400 
+             rounded-full text-xs font-semibold">
+    Lost
+</span>
+
+BADGE - PENDING
+---------------
+<span class="px-3 py-1 bg-yellow-500/20 text-yellow-400 
+             rounded-full text-xs font-semibold">
+    Pending
+</span>
+
+BADGE - VIP
+-----------
+<span class="px-3 py-1 bg-purple-500/20 text-purple-400 
+             rounded-full text-xs font-semibold">
+    VIP
+</span>
+
+BADGE - FREE
+------------
+<span class="px-3 py-1 bg-blue-500/20 text-blue-400 
+             rounded-full text-xs font-semibold">
+    Free
+</span>
+
+BADGE - ACTIVE
+--------------
+<span class="inline-flex items-center px-4 py-2 bg-green-500/20 
+             text-green-400 rounded-full font-semibold">
+    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+    Active
+</span>
+
+
+================================================================================
+SPACING SYSTEM
+================================================================================
+
+PADDING
+-------
+| Class | Value | Usage                                       |
+|-------|-------|---------------------------------------------|
+| p-4   | 16px  | Small cards, compact elements               |
+| p-6   | 24px  | Standard cards                              |
+| p-8   | 32px  | Large cards, hero sections                  |
+| p-12  | 48px  | Extra large sections                        |
+
+MARGIN
+------
+| Class | Value | Usage                                       |
+|-------|-------|---------------------------------------------|
+| mb-4  | 16px  | Between small elements                      |
+| mb-6  | 24px  | Between sections                            |
+| mb-8  | 32px  | Between major sections                      |
+| mb-12 | 48px  | Hero section spacing                        |
+
+GAP (Flexbox/Grid)
+------------------
+| Class  | Value | Usage                                      |
+|--------|-------|---------------------------------------------|
+| gap-4  | 16px  | Tight grid layouts                          |
+| gap-6  | 24px  | Standard grid layouts                       |
+| gap-8  | 32px  | Loose grid layouts                          |
+
+VERTICAL STACKING
+-----------------
+| Class     | Value | Usage                                   |
+|-----------|-------|-----------------------------------------|
+| space-y-4 | 16px  | Form fields, list items                 |
+| space-y-6 | 24px  | Card sections                           |
+| space-y-8 | 32px  | Page sections                           |
+
+
+================================================================================
+BORDER RADIUS
+================================================================================
+
+| Class        | Value | Usage                                    |
+|--------------|-------|------------------------------------------|
+| rounded-lg   | 8px   | Small elements, buttons                  |
+| rounded-xl   | 12px  | Inputs, medium buttons                   |
+| rounded-2xl  | 16px  | Cards, modals                            |
+| rounded-full | 9999px| Badges, pills, avatars, round buttons    |
+
+
+================================================================================
+SHADOWS & EFFECTS
+================================================================================
+
+CTA GLOW
+--------
+shadow-lg shadow-amber-500/25
+
+GLASS EFFECT
+------------
+backdrop-blur (or backdrop-blur-md)
+
+HOVER SCALE
+-----------
+transform hover:scale-105
+transform hover:scale-[1.02]
+
+ACTIVE SCALE
+------------
+active:scale-[0.98]
+
+
+================================================================================
+BACKGROUND DECORATIONS
+================================================================================
+
+PATTERN OVERLAY (SVG Cross Pattern)
+-----------------------------------
+<div class="bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" 
+     viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg 
+     fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23334155\" 
+     fill-opacity=\"0.1\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] 
+     opacity-50 pointer-events-none"></div>
+
+GRADIENT ORBS (Decorative Blur)
+-------------------------------
+<!-- Top left amber orb -->
+<div class="fixed top-0 left-0 w-96 h-96 bg-amber-500/20 
+            rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 
+            pointer-events-none"></div>
+
+<!-- Bottom right orange orb -->
+<div class="fixed bottom-0 right-0 w-96 h-96 bg-orange-500/20 
+            rounded-full blur-3xl translate-x-1/2 translate-y-1/2 
+            pointer-events-none"></div>
+
+
+================================================================================
+LOGO
+================================================================================
+
+TEXT LOGO FORMAT
+----------------
+<span class="gradient-text">Bets</span>
+<span class="text-white">Lab</span>
+<span class="text-amber-400">.io</span>
+
+FULL LOGO EXAMPLE
+-----------------
+<div class="text-2xl font-bold">
+    <span class="gradient-text">Bets</span>
+    <span class="text-white">Lab</span>
+    <span class="text-amber-400">.io</span>
+</div>
+
+
+================================================================================
+RESPONSIVE BREAKPOINTS (Tailwind Defaults)
+================================================================================
+
+| Prefix | Min Width | Usage                                     |
+|--------|-----------|-------------------------------------------|
+| sm:    | 640px     | Small tablets                             |
+| md:    | 768px     | Tablets                                   |
+| lg:    | 1024px    | Laptops                                   |
+| xl:    | 1280px    | Desktops                                  |
+| 2xl:   | 1536px    | Large screens                             |
+
+
+================================================================================
+ANIMATIONS
+================================================================================
+
+PULSE (Active indicator)
+------------------------
+animate-pulse
+
+TRANSITION CLASSES
+------------------
+transition                    - Default transition
+transition-all                - All properties
+transition duration-300       - 300ms duration
+transform hover:scale-105     - Scale on hover
+
+
+================================================================================
+                              END OF DESIGN SYSTEM
+================================================================================
+
