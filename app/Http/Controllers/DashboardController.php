@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $activeSubscription = $user->activeSubscription;
+        $subscriptions = $user->subscriptions()->with('plan')->latest()->get();
 
         // Get recent tips
         $recentTips = Tip::published()
@@ -33,6 +34,7 @@ class DashboardController extends Controller
         return view('dashboard', [
             'user' => $user,
             'activeSubscription' => $activeSubscription,
+            'subscriptions' => $subscriptions,
             'recentTips' => $recentTips,
             'stats' => $stats,
         ]);
