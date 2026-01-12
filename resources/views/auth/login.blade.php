@@ -105,7 +105,7 @@
         </div>
 
         <!-- Right Panel - Login Form -->
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 relative z-10">
             <div class="w-full max-w-md">
                 <!-- Mobile Logo -->
                 <div class="lg:hidden text-center mb-8">
