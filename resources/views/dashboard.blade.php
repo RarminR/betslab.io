@@ -171,8 +171,12 @@
                                 <div>
                                     <p class="font-semibold text-white">{{ $subscription->plan->name }}</p>
                                     <p class="text-slate-400 text-sm">
-                                        {{ $subscription->starts_at->format('M d, Y') }} - 
-                                        {{ $subscription->ends_at ? $subscription->ends_at->format('M d, Y') : 'Never' }}
+                                        @if($subscription->starts_at)
+                                            {{ $subscription->starts_at->format('M d, Y') }} - 
+                                            {{ $subscription->ends_at ? $subscription->ends_at->format('M d, Y') : 'Never' }}
+                                        @else
+                                            Pending activation
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="mt-2 sm:mt-0 flex items-center gap-3">
